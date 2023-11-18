@@ -4,6 +4,27 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid />
+        Title="VisualHttpServer" Height="450" Width="800">
+    <Grid>
+        <StackPanel>
+            <Menu>
+                <MenuItem Header="File">
+                    <MenuItem Header="Save as..." Command="{Binding SaveAs }" />
+                    <MenuItem Header="Open..." Command="{Binding Open }" />
+                    <MenuItem Header="Exit" Command="{Binding Exit}" />
+                </MenuItem>
+                <MenuItem Header="Server">
+                    <MenuItem Header="Start" Command="{Binding StartHttpServer}" />
+                    <MenuItem Header="Stop" Command="{Binding StopHttpServer}" />
+                </MenuItem>
+                <MenuItem Header="Routes">
+                    <MenuItem Header="Add..." Command="{Binding NewRoute}" />
+                    <MenuItem Header="Clear" Command="{Binding ClearRoutes}" />
+                </MenuItem>
+                <MenuItem Header="Help">
+                    <MenuItem Header="About" Command="{Binding AboutProgram}" />
+                </MenuItem>
+            </Menu>
+        </StackPanel>
+    </Grid>
 </Window>
