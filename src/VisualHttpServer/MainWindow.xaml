@@ -4,6 +4,145 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid />
+        Title="VisualHttpServer" Height="450" Width="800">
+    <Window.Resources>
+        <Style x:Key="TableHeader">
+            <Setter Property="TextBlock.Padding" Value="10, 0, 10, 0" />
+        </Style>
+    </Window.Resources>
+    <Grid>
+        <StackPanel>
+            <Menu>
+                <MenuItem Header="File">
+                    <MenuItem Header="Save as..." Command="{Binding SaveAs }" />
+                    <MenuItem Header="Open..." Command="{Binding Open }" />
+                    <MenuItem Header="Exit" Command="{Binding Exit}" />
+                </MenuItem>
+                <MenuItem Header="Server">
+                    <MenuItem Header="Start" Command="{Binding StartHttpServer}" />
+                    <MenuItem Header="Stop" Command="{Binding StopHttpServer}" />
+                </MenuItem>
+                <MenuItem Header="Routes">
+                    <MenuItem Header="Add..." Command="{Binding NewRoute}" />
+                    <MenuItem Header="Clear" Command="{Binding ClearRoutes}" />
+                </MenuItem>
+                <MenuItem Header="Help">
+                    <MenuItem Header="About" Command="{Binding AboutProgram}" />
+                </MenuItem>
+            </Menu>
+            <ToolBar>
+                <Button Content="New Route..." Command="{Binding NewRoute}" />
+            </ToolBar>
+            <StackPanel Orientation="Horizontal" Margin="0, 5, 0, 5">
+                <Label Content="Host:" />
+                <TextBox Width="150" VerticalContentAlignment="Center" Margin="0, 0, 5, 0" />
+                <Label Content="Port:" />
+                <TextBox Width="50" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0, 0, 10, 0" />
+                <Button Content="Start" Command="{Binding StartHttpServer}" Padding="10, 0, 10, 0" />
+            </StackPanel>
+            <TabControl>
+                <TabItem Header="Routes">
+                    <ListView Name="RoutesListView">
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn>
+                                    <GridViewColumn.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="Method" Style="{StaticResource TableHeader}" />
+                                        </DataTemplate>
+                                    </GridViewColumn.HeaderTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn>
+                                    <GridViewColumn.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="Path" Style="{StaticResource TableHeader}" />
+                                        </DataTemplate>
+                                    </GridViewColumn.HeaderTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn>
+                                    <GridViewColumn.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="Status code" Style="{StaticResource TableHeader}" />
+                                        </DataTemplate>
+                                    </GridViewColumn.HeaderTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </TabItem>
+                <TabItem Header="Handled Requests">
+                    <ListView>
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn>
+                                    <GridViewColumn.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="Time" Style="{StaticResource TableHeader}" />
+                                        </DataTemplate>
+                                    </GridViewColumn.HeaderTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn>
+                                    <GridViewColumn.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="Method" Style="{StaticResource TableHeader}" />
+                                        </DataTemplate>
+                                    </GridViewColumn.HeaderTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn>
+                                    <GridViewColumn.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="Status code" Style="{StaticResource TableHeader}" />
+                                        </DataTemplate>
+                                    </GridViewColumn.HeaderTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn>
+                                    <GridViewColumn.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="Path" Style="{StaticResource TableHeader}" />
+                                        </DataTemplate>
+                                    </GridViewColumn.HeaderTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </TabItem>
+                <TabItem Header="Unhandled Requests">
+                    <ListView>
+                        <ListView.View>
+                            <GridView>
+                                <GridViewColumn>
+                                    <GridViewColumn.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="Time" Style="{StaticResource TableHeader}" />
+                                        </DataTemplate>
+                                    </GridViewColumn.HeaderTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn>
+                                    <GridViewColumn.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="Method" Style="{StaticResource TableHeader}" />
+                                        </DataTemplate>
+                                    </GridViewColumn.HeaderTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn>
+                                    <GridViewColumn.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="Status code" Style="{StaticResource TableHeader}" />
+                                        </DataTemplate>
+                                    </GridViewColumn.HeaderTemplate>
+                                </GridViewColumn>
+                                <GridViewColumn>
+                                    <GridViewColumn.HeaderTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="Path" Style="{StaticResource TableHeader}" />
+                                        </DataTemplate>
+                                    </GridViewColumn.HeaderTemplate>
+                                </GridViewColumn>
+                            </GridView>
+                        </ListView.View>
+                    </ListView>
+                </TabItem>
+            </TabControl>
+        </StackPanel>
+    </Grid>
 </Window>
