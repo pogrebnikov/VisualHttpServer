@@ -4,4 +4,4 @@
 
 ## License
 
-[MIT](https://raw.githubusercontent.com/pogrebnikov/VisualHttpServer/master/LICENSE.txt).
+[MIT](https://raw.githubusercontent.com/pogrebnikov/VisualHttpServer/master/LICENSE.txt)
