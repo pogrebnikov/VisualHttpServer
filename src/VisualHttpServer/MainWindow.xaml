@@ -110,11 +110,11 @@
                         </ListView.View>
                     </ListView>
                 </TabItem>
-                <TabItem Header="Unhandled Requests">
-                    <ListView>
+                <TabItem Header="{Binding Path=UnhandledRequests.Count}" HeaderStringFormat="Unhandled Requests ({0})">
+                    <ListView ItemsSource="{Binding UnhandledRequests}">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Request.Time,StringFormat=\{0:hh\\:mm\\:ss\}}">
                                     <GridViewColumn.HeaderTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="Time" Style="{StaticResource TableHeader}" />
@@ -127,6 +127,11 @@
                                             <TextBlock Text="Method" Style="{StaticResource TableHeader}" />
                                         </DataTemplate>
                                     </GridViewColumn.HeaderTemplate>
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Request.Method}" TextAlignment="Center" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
                                 <GridViewColumn>
                                     <GridViewColumn.HeaderTemplate>
@@ -134,8 +139,13 @@
                                             <TextBlock Text="Status code" Style="{StaticResource TableHeader}" />
                                         </DataTemplate>
                                     </GridViewColumn.HeaderTemplate>
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Response.StatusCode}" TextAlignment="Center" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Request.Path}">
                                     <GridViewColumn.HeaderTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="Path" Style="{StaticResource TableHeader}" />

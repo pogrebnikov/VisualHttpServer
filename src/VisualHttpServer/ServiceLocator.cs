@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using VisualHttpServer.Commands;
+using VisualHttpServer.Core;
 using VisualHttpServer.Services;
 
 namespace VisualHttpServer;
@@ -41,6 +42,7 @@ internal static class ServiceLocator
 
     private static void ConfigureServices(IServiceCollection services)
     {
+        services.AddSingleton<IHttpServer, HttpServer>();
         services.AddSingleton<IMessageViewer, MessageViewer>();
         services.AddTransient<StartHttpServerCommand>();
     }

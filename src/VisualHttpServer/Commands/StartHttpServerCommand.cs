@@ -1,10 +1,11 @@
 ﻿using System.Net;
 using System.Windows.Input;
+using VisualHttpServer.Core;
 using VisualHttpServer.Services;
 
 namespace VisualHttpServer.Commands;
 
-internal class StartHttpServerCommand(IMessageViewer messageViewer) : ICommand
+internal class StartHttpServerCommand(IHttpServer httpServer, IMessageViewer messageViewer) : ICommand
 {
     public bool CanExecute(object? parameter)
     {
@@ -32,7 +33,7 @@ internal class StartHttpServerCommand(IMessageViewer messageViewer) : ICommand
 
         try
         {
-            //TODO start http server
+            httpServer.Start(address, port);
         }
         catch
         {

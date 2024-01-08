@@ -1,5 +1,7 @@
 *.user
 
 src/.vs/
+src/Core/bin/
+src/Core/obj/
 src/VisualHttpServer/bin/
 src/VisualHttpServer/obj/
