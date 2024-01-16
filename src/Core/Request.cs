@@ -50,11 +50,18 @@ public class Request
         var buffer = new byte[1024];
         StringBuilder content = new();
 
-        while (networkStream.DataAvailable)
+        do
         {
-            var count = networkStream.Read(buffer, 0, buffer.Length);
-            content.Append(Encoding.Default.GetString(buffer, 0, count));
-        }
+            try
+            {
+                var count = networkStream.Read(buffer, 0, buffer.Length);
+                content.Append(Encoding.Default.GetString(buffer, 0, count));
+            }
+            catch
+            {
+                return content.ToString();
+            }
+        } while (networkStream.DataAvailable);
 
         return content.ToString();
     }

@@ -3,5 +3,7 @@
 src/.vs/
 src/Core/bin/
 src/Core/obj/
+src/Core.Tests/bin/
+src/Core.Tests/obj/
 src/VisualHttpServer/bin/
 src/VisualHttpServer/obj/
