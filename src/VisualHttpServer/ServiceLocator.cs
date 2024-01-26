@@ -45,5 +45,6 @@ internal static class ServiceLocator
         services.AddSingleton<IHttpServer, HttpServer>();
         services.AddSingleton<IMessageViewer, MessageViewer>();
         services.AddTransient<StartHttpServerCommand>();
+        services.AddTransient<StopHttpServerCommand>();
     }
 }

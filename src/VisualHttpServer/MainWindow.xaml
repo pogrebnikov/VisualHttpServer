@@ -23,7 +23,7 @@
                     <MenuItem Header="Exit" Command="{Binding Exit}" />
                 </MenuItem>
                 <MenuItem Header="Server">
-                    <MenuItem Header="Start" Command="{Binding StartHttpServer}" />
+                    <MenuItem Header="Start" Command="{Binding StartHttpServer}" CommandParameter="{Binding ConnectionSettings}" />
                     <MenuItem Header="Stop" Command="{Binding StopHttpServer}" />
                 </MenuItem>
                 <MenuItem Header="Routes">
@@ -42,7 +42,8 @@
                 <TextBox Text="{Binding ConnectionSettings.Host}" Width="150" VerticalContentAlignment="Center" Margin="0, 0, 5, 0" />
                 <Label Content="Port:" />
                 <TextBox Text="{Binding ConnectionSettings.Port}" Width="50" VerticalContentAlignment="Center" HorizontalContentAlignment="Center" Margin="0, 0, 10, 0" />
-                <Button Content="Start" Command="{Binding StartHttpServer}" CommandParameter="{Binding ConnectionSettings}" Padding="10, 0, 10, 0" />
+                <Button Content="Start" Command="{Binding StartHttpServer}" CommandParameter="{Binding ConnectionSettings}"  Visibility="{Binding StartHttpServerVisibility}" Padding="10, 0, 10, 0" />
+                <Button Content="Stop" Command="{Binding StopHttpServer}" Visibility="{Binding StopHttpServerVisibility}" Padding="10, 0, 10, 0" />
             </StackPanel>
             <TabControl>
                 <TabItem Header="Routes">
