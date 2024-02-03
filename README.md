@@ -1,6 +1,6 @@
 # Visual Http Server
 
-`Visual Http Server` is a GUI static HTTP server.
+`Visual HTTP Server` is a GUI static HTTP server.
 
 ## License
 

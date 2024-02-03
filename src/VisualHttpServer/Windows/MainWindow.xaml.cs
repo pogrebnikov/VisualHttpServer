@@ -1,6 +1,6 @@
 ﻿using System.Windows;
 
-namespace VisualHttpServer;
+namespace VisualHttpServer.Windows;
 
 /// <summary>
 ///     Interaction logic for MainWindow.xaml

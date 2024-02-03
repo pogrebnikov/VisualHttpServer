@@ -6,7 +6,7 @@ using System.Windows.Threading;
 using VisualHttpServer.Commands;
 using VisualHttpServer.Core;
 
-namespace VisualHttpServer;
+namespace VisualHttpServer.Windows;
 
 internal class MainWindowViewModel : INotifyPropertyChanged
 {
@@ -36,6 +36,7 @@ internal class MainWindowViewModel : INotifyPropertyChanged
 
     public StartHttpServerCommand? StartHttpServer { get; } = ServiceLocator.Resolve<StartHttpServerCommand>();
     public StopHttpServerCommand? StopHttpServer { get; } = ServiceLocator.Resolve<StopHttpServerCommand>();
+    public AboutProgramCommand AboutProgram { get; } = new();
 
     public Visibility StartHttpServerVisibility { get; set; } = Visibility.Visible;
     public Visibility StopHttpServerVisibility { get; set; } = Visibility.Collapsed;
