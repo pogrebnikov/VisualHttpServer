@@ -1,15 +1,36 @@
 ﻿using System.Net;
 using System.Windows.Input;
+using System.Windows.Threading;
 using VisualHttpServer.Core;
 using VisualHttpServer.Services;
 
 namespace VisualHttpServer.Commands;
 
-internal class StartHttpServerCommand(IHttpServer httpServer, IMessageViewer messageViewer) : ICommand
+internal class StartHttpServerCommand : ICommand
 {
+    private readonly IHttpServer _httpServer;
+    private readonly IMessageViewer _messageViewer;
+    private bool _canExecute;
+
+    public StartHttpServerCommand(IHttpServer httpServer, IMessageViewer messageViewer)
+    {
+        _httpServer = httpServer;
+        _messageViewer = messageViewer;
+
+        var dispatcherTimer = new DispatcherTimer
+        {
+            Interval = new TimeSpan(0, 0, 0, 0, 100)
+        };
+
+        dispatcherTimer.Tick += DispatcherTimer_Tick;
+        dispatcherTimer.Start();
+        _canExecute = GetCanExecute();
+
+    }
+
     public bool CanExecute(object? parameter)
     {
-        return true;
+        return _canExecute;
     }
 
     public void Execute(object? parameter)
@@ -33,15 +54,20 @@ internal class StartHttpServerCommand(IHttpServer httpServer, IMessageViewer mes
 
         try
         {
-            httpServer.Start(address, port);
+            _httpServer.Start(address, port);
         }
         catch
         {
-            messageViewer.View("Error!", "Can't start a server. Please check a host and a port.");
+            _messageViewer.View("Error!", "Can't start a server. Please check a host and a port.");
         }
     }
 
     public event EventHandler? CanExecuteChanged;
+
+    private bool GetCanExecute()
+    {
+        return _httpServer.State == HttpServerState.Stopped;
+    }
 
     private bool TryParseIpAddress(ConnectionSettings connectionSettings, out IPAddress? address)
     {
@@ -50,7 +76,7 @@ internal class StartHttpServerCommand(IHttpServer httpServer, IMessageViewer mes
         var host = connectionSettings.Host;
         if (string.IsNullOrWhiteSpace(host))
         {
-            messageViewer.View("Warning!", "Please enter a host.");
+            _messageViewer.View("Warning!", "Please enter a host.");
             return false;
         }
 
@@ -61,7 +87,7 @@ internal class StartHttpServerCommand(IHttpServer httpServer, IMessageViewer mes
         }
         catch
         {
-            messageViewer.View("Warning!", $"The host '{host}' is invalid.");
+            _messageViewer.View("Warning!", $"The host '{host}' is invalid.");
             return false;
         }
     }
@@ -73,7 +99,7 @@ internal class StartHttpServerCommand(IHttpServer httpServer, IMessageViewer mes
         var portAsStr = connectionSettings.Port;
         if (string.IsNullOrWhiteSpace(portAsStr))
         {
-            messageViewer.View("Warning!", "Please enter a port.");
+            _messageViewer.View("Warning!", "Please enter a port.");
             return false;
         }
 
@@ -84,8 +110,19 @@ internal class StartHttpServerCommand(IHttpServer httpServer, IMessageViewer mes
         }
         catch
         {
-            messageViewer.View("Warning!", $"The port '{portAsStr}' is invalid.");
+            _messageViewer.View("Warning!", $"The port '{portAsStr}' is invalid.");
             return false;
+        }
+    }
+
+    private void DispatcherTimer_Tick(object? sender, EventArgs e)
+    {
+        var newCanExecute = GetCanExecute();
+
+        if (_canExecute != newCanExecute)
+        {
+            _canExecute = newCanExecute;
+            CanExecuteChanged?.Invoke(this, EventArgs.Empty);
         }
     }
 }
