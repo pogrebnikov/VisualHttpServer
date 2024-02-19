@@ -46,8 +46,8 @@
                 <Button Content="Stop" Command="{Binding StopHttpServer}" Visibility="{Binding StopHttpServerVisibility}" Padding="10, 0, 10, 0" />
             </StackPanel>
             <TabControl>
-                <TabItem Header="Routes">
-                    <ListView Name="RoutesListView">
+                <TabItem Header="{Binding Path=Routes.Count}" HeaderStringFormat="Routes ({0})">
+                    <ListView ItemsSource="{Binding Routes}" Name="RoutesListView">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn>
@@ -56,8 +56,13 @@
                                             <TextBlock Text="Method" Style="{StaticResource TableHeader}" />
                                         </DataTemplate>
                                     </GridViewColumn.HeaderTemplate>
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Method}" TextAlignment="Center" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn>
+                                <GridViewColumn DisplayMemberBinding="{Binding Path}">
                                     <GridViewColumn.HeaderTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="Path" Style="{StaticResource TableHeader}" />
@@ -70,6 +75,11 @@
                                             <TextBlock Text="Status code" Style="{StaticResource TableHeader}" />
                                         </DataTemplate>
                                     </GridViewColumn.HeaderTemplate>
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Response.StatusCode}" TextAlignment="Center" />
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
                             </GridView>
                         </ListView.View>

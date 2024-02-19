@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using VisualHttpServer.Commands;
 using VisualHttpServer.Core;
+using VisualHttpServer.Model;
 using VisualHttpServer.Services;
 
 namespace VisualHttpServer;
@@ -46,5 +47,6 @@ internal static class ServiceLocator
         services.AddSingleton<IMessageViewer, MessageViewer>();
         services.AddTransient<StartHttpServerCommand>();
         services.AddTransient<StopHttpServerCommand>();
+        services.AddSingleton<RouteUiCollection>();
     }
 }

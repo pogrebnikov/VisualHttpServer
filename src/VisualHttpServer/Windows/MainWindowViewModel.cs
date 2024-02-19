@@ -5,6 +5,7 @@ using System.Windows;
 using System.Windows.Threading;
 using VisualHttpServer.Commands;
 using VisualHttpServer.Core;
+using VisualHttpServer.Model;
 
 namespace VisualHttpServer.Windows;
 
@@ -15,6 +16,10 @@ internal class MainWindowViewModel : INotifyPropertyChanged
     public MainWindowViewModel()
     {
         _httpServer = ServiceLocator.Resolve<IHttpServer>();
+
+        var routes = ServiceLocator.Resolve<RouteUiCollection>();
+        Routes = routes is null ? new ObservableCollection<RouteUi>() : routes.AsObservable();
+
         var dispatcherTimer = new DispatcherTimer
         {
             Interval = new TimeSpan(0, 0, 0, 0, 100)
@@ -32,8 +37,10 @@ internal class MainWindowViewModel : INotifyPropertyChanged
         Port = "8080"
     };
 
+    public ObservableCollection<RouteUi> Routes { get; }
     public ObservableCollection<Interaction> UnhandledRequests { get; } = new();
 
+    public NewRouteCommand NewRoute { get; } = new();
     public StartHttpServerCommand? StartHttpServer { get; } = ServiceLocator.Resolve<StartHttpServerCommand>();
     public StopHttpServerCommand? StopHttpServer { get; } = ServiceLocator.Resolve<StopHttpServerCommand>();
     public AboutProgramCommand AboutProgram { get; } = new();
