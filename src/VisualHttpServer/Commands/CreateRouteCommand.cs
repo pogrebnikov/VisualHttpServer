@@ -37,7 +37,7 @@ internal class CreateRouteCommand(RouteUiCollection routes, IMessageViewer messa
             return false;
         }
 
-        if (routes.Any(rt => rt.Method == route.Method && rt.Path == route.Path))
+        if (routes.Contains(route))
         {
             messageViewer.View(string.Empty, "A route with same Method and Path already exists.");
             return false;

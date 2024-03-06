@@ -38,6 +38,7 @@ internal class MainWindowViewModel : INotifyPropertyChanged
     };
 
     public ObservableCollection<RouteUi> Routes { get; }
+    public ObservableCollection<Interaction> HandledRequests { get; } = new();
     public ObservableCollection<Interaction> UnhandledRequests { get; } = new();
 
     public NewRouteCommand NewRoute { get; } = new();
@@ -78,6 +79,11 @@ internal class MainWindowViewModel : INotifyPropertyChanged
 
             OnPropertyChanged(nameof(StartHttpServerVisibility));
             OnPropertyChanged(nameof(StopHttpServerVisibility));
+
+            foreach (var interaction in _httpServer.HandledInteractions.PopAll())
+            {
+                HandledRequests.Insert(0, interaction);
+            }
 
             foreach (var interaction in _httpServer.UnhandledInteractions.PopAll())
             {

@@ -1,29 +1,32 @@
-﻿using System.Collections;
-using System.Collections.ObjectModel;
+﻿using System.Collections.ObjectModel;
+using VisualHttpServer.Core;
 
 namespace VisualHttpServer.Model;
 
-internal class RouteUiCollection : IEnumerable<RouteUi>
+internal class RouteUiCollection(IHttpServer httpServer)
 {
     private readonly ObservableCollection<RouteUi> _collection = new();
 
-    public IEnumerator<RouteUi> GetEnumerator()
-    {
-        return _collection.GetEnumerator();
-    }
-
-    IEnumerator IEnumerable.GetEnumerator()
-    {
-        return GetEnumerator();
-    }
-
-    internal ObservableCollection<RouteUi> AsObservable()
+    public ObservableCollection<RouteUi> AsObservable()
     {
         return _collection;
     }
 
-    internal void Add(RouteUi route)
+    public void Add(RouteUi route)
     {
         _collection.Add(route);
+        UpdateServerRoutes();
+    }
+
+    public bool Contains(RouteUi route)
+    {
+        return _collection.Any(rt => rt.Method == route.Method && rt.Path == route.Path);
+    }
+    
+    private void UpdateServerRoutes()
+    {
+        var routes = _collection.Select(route => route.ToServerRoute()).ToArray();
+
+        httpServer.Routes.Update(routes);
     }
 }

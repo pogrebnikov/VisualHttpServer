@@ -5,9 +5,9 @@ namespace VisualHttpServer.Core;
 public class Response
 {
     private const string EndOfLine = "\r\n";
-    public int StatusCode { get; init; }
+    public required int StatusCode { get; init; }
 
-    public string? Body { get; init; }
+    public required string? Body { get; init; }
 
     public void Write(Stream stream)
     {

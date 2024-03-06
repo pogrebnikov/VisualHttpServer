@@ -7,7 +7,15 @@ public class HttpServer : IHttpServer
 {
     private TcpListener? _listener;
 
+    private readonly Response _response404 = new()
+    {
+        StatusCode = 404,
+        Body = null
+    };
+
     public HttpServerState State { get; private set; } = HttpServerState.Stopped;
+    public RouteCollection Routes { get; } = new();
+    public InteractionCollection HandledInteractions { get; } = new();
     public InteractionCollection UnhandledInteractions { get; } = new();
 
     public void Start(IPAddress address, int port)
@@ -67,10 +75,20 @@ public class HttpServer : IHttpServer
                         continue;
                     }
 
-                    Response response = new()
+                    var route = Routes.Find(request.Method, request.Path).FirstOrDefault();
+
+                    bool handled;
+                    Response response;
+                    if (route is null)
                     {
-                        StatusCode = 404
-                    };
+                        handled = false;
+                        response = _response404;
+                    }
+                    else
+                    {
+                        handled = true;
+                        response = route.Response;
+                    }
 
                     response.Write(stream);
 
@@ -80,7 +98,14 @@ public class HttpServer : IHttpServer
                         Response = response
                     };
 
-                    UnhandledInteractions.Add(interaction);
+                    if (handled)
+                    {
+                        HandledInteractions.Add(interaction);
+                    }
+                    else
+                    {
+                        UnhandledInteractions.Add(interaction);
+                    }
                 }
                 finally
                 {
