@@ -1,6 +1,8 @@
-# Visual Http Server
+# Visual HTTP Server
 
 `Visual HTTP Server` is a GUI static HTTP server.
+
+![Main Window](https://raw.githubusercontent.com/pogrebnikov/VisualHttpServer/develop/doc/main-window-routes.png)
 
 ## License
 
