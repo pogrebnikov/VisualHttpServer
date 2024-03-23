@@ -7,4 +7,8 @@ namespace VisualHttpServer;
 /// </summary>
 public partial class App : Application
 {
+    public App()
+    {
+        ServiceLocator.Init();
+    }
 }

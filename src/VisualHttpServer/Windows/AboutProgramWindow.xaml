@@ -1,0 +1,35 @@
+﻿<Window x:Class="VisualHttpServer.Windows.AboutProgramWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:windows="clr-namespace:VisualHttpServer.Windows"
+        mc:Ignorable="d"
+        Title="About Visual HTTP Server" Height="220" Width="400" ResizeMode="NoResize" WindowStartupLocation="CenterScreen">
+    <Window.DataContext>
+        <windows:AboutProgramWindowViewModel />
+    </Window.DataContext>
+    <Grid>
+        <DockPanel>
+            <StackPanel DockPanel.Dock="Top" Margin="10, 0, 0, 0">
+                <StackPanel Orientation="Horizontal">
+                    <Label Content="Version:" Width="52" />
+                    <Label Content="{Binding Version}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0, 10, 0, 0">
+                    <Label Content="Author:" Width="52" />
+                    <Label Content="{Binding Author}" />
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" Margin="0, 10, 0, 0">
+                    <Label Content="e-mail:" Width="57" />
+                    <TextBox Text="alexei.pogrebnikov@gmail.com" VerticalContentAlignment="Center" Foreground="Blue"
+                             IsReadOnly="True"
+                             Padding="5, 0, 5, 0" />
+                </StackPanel>
+            </StackPanel>
+            <StackPanel DockPanel.Dock="Bottom" VerticalAlignment="Bottom" HorizontalAlignment="Right">
+                <Button Content="Close" Width="70" Margin="0, 0, 10, 10" Click="CloseButton_Click" />
+            </StackPanel>
+        </DockPanel>
+    </Grid>
+</Window>
