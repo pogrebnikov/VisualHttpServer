@@ -44,6 +44,7 @@ internal class MainWindowViewModel : INotifyPropertyChanged
     public NewRouteCommand NewRoute { get; } = new();
     public StartHttpServerCommand? StartHttpServer { get; } = ServiceLocator.Resolve<StartHttpServerCommand>();
     public StopHttpServerCommand? StopHttpServer { get; } = ServiceLocator.Resolve<StopHttpServerCommand>();
+    public ClearRoutesCommand? ClearRoutes { get; } = ServiceLocator.Resolve<ClearRoutesCommand>();
     public AboutProgramCommand AboutProgram { get; } = new();
 
     public Visibility StartHttpServerVisibility { get; set; } = Visibility.Visible;

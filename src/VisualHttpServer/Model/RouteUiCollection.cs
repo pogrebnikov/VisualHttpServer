@@ -18,6 +18,12 @@ internal class RouteUiCollection(IHttpServer httpServer)
         UpdateServerRoutes();
     }
 
+    public void Clear()
+    {
+        _collection.Clear();
+        UpdateServerRoutes();
+    }
+
     public bool Contains(RouteUi route)
     {
         return _collection.Any(rt => rt.Method == route.Method && rt.Path == route.Path);
