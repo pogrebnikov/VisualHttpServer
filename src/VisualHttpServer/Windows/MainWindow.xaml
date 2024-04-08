@@ -83,6 +83,14 @@
                                 </GridViewColumn>
                             </GridView>
                         </ListView.View>
+                        <ListView.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Add..." Command="{Binding NewRoute}" />
+                                <MenuItem Header="Edit..." Command="{Binding EditRoute}" />
+                                <MenuItem Header="Remove" Command="{Binding RemoveRoute}" />
+                                <MenuItem Header="Clear" Command="{Binding ClearRoutes}" />
+                            </ContextMenu>
+                        </ListView.ContextMenu>
                     </ListView>
                 </TabItem>
                 <TabItem Header="{Binding Path=HandledRequests.Count}" HeaderStringFormat="Handled Requests ({0})">
