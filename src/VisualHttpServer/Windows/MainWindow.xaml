@@ -47,7 +47,7 @@
             </StackPanel>
             <TabControl>
                 <TabItem Header="{Binding Path=Routes.Count}" HeaderStringFormat="Routes ({0})">
-                    <ListView ItemsSource="{Binding Routes}" Name="RoutesListView">
+                    <ListView ItemsSource="{Binding Routes}" Name="RoutesListView" SelectionChanged="RoutesListView_OnSelectionChanged">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn>
@@ -87,7 +87,8 @@
                             <ContextMenu>
                                 <MenuItem Header="Add..." Command="{Binding NewRoute}" />
                                 <MenuItem Header="Edit..." Command="{Binding EditRoute}" />
-                                <MenuItem Header="Remove" Command="{Binding RemoveRoute}" />
+                                <MenuItem Header="Remove" Command="{Binding RemoveRoutes}"
+                                          CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItems}" />
                                 <MenuItem Header="Clear" Command="{Binding ClearRoutes}" />
                             </ContextMenu>
                         </ListView.ContextMenu>

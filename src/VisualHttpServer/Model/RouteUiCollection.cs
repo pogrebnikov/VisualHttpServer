@@ -18,6 +18,22 @@ internal class RouteUiCollection(IHttpServer httpServer)
         UpdateServerRoutes();
     }
 
+    public void Remove(RouteUi route)
+    {
+        _collection.Remove(route);
+        UpdateServerRoutes();
+    }
+
+    public void RemoveRange(IEnumerable<RouteUi> routes)
+    {
+        foreach (var route in routes)
+        {
+            _collection.Remove(route);
+        }
+
+        UpdateServerRoutes();
+    }
+
     public void Clear()
     {
         _collection.Clear();
