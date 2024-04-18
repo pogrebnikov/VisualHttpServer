@@ -9,7 +9,7 @@
 - [Windows](https://github.com/dotnet/core/blob/main/release-notes/8.0/supported-os.md#windows)
 - [.NET 8 SDK](https://dotnet.microsoft.com/en-us/download/dotnet/8.0)
 
-## Installation
+## Compiling
 
 1. Download the archive with the sources of the [latest release](https://github.com/pogrebnikov/VisualHttpServer/releases)
 2. Unpack the archive
@@ -18,11 +18,17 @@
 
 ![Build command](https://raw.githubusercontent.com/pogrebnikov/VisualHttpServer/documentation-feature/doc/build-command.png)
 
-5. Navigate `src\VisualHttpServer\bin\Debug\net8.0-windows` in explorer
+## Installation
+
+`Visual HTTP Server` is a portable application and does not require installation.
+
+## Deployment
+
+1. Navigate `src\VisualHttpServer\bin\Debug\net8.0-windows` in explorer
 
 ![Output folder](https://raw.githubusercontent.com/pogrebnikov/VisualHttpServer/documentation-feature/doc/build-output.png)
 
-6. Launch `VisualHttpServer.exe`
+2. Copy files to target folder
 
 ## License
 
