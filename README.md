@@ -15,7 +15,13 @@
 2. Unpack the archive
 3. Navigate `src` folder in command prompt
 4. Run command `dotnet build VisualHttpServer.sln`
+
+![Build command](https://raw.githubusercontent.com/pogrebnikov/VisualHttpServer/documentation-feature/doc/build-command.png)
+
 5. Navigate `src\VisualHttpServer\bin\Debug\net8.0-windows` in explorer
+
+![Output folder](https://raw.githubusercontent.com/pogrebnikov/VisualHttpServer/documentation-feature/doc/build-output.png)
+
 6. Launch `VisualHttpServer.exe`
 
 ## License
