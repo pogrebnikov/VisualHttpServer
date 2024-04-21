@@ -29,7 +29,7 @@
 3. Navigate `src` folder in command prompt.
 4. Run command `dotnet build VisualHttpServer.sln`.
 
-![Build command](https://raw.githubusercontent.com/pogrebnikov/VisualHttpServer/documentation-feature/doc/build-command.png)
+![Build command](https://raw.githubusercontent.com/pogrebnikov/VisualHttpServer/develop/doc/build-command.png)
 
 ## Installation
 
@@ -39,7 +39,7 @@
 
 1. Navigate `src\VisualHttpServer\bin\Debug\net8.0-windows` in explorer.
 
-![Output folder](https://raw.githubusercontent.com/pogrebnikov/VisualHttpServer/documentation-feature/doc/build-output.png)
+![Output folder](https://raw.githubusercontent.com/pogrebnikov/VisualHttpServer/develop/doc/build-output.png)
 
 2. Copy files to target folder.
 
