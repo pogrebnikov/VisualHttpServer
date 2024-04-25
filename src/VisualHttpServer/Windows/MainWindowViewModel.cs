@@ -42,6 +42,7 @@ internal class MainWindowViewModel : INotifyPropertyChanged
     public ObservableCollection<Interaction> UnhandledRequests { get; } = new();
 
     public NewRouteCommand NewRoute { get; } = new();
+    public DisableRoutesCommand? DisableRoutes { get; } = ServiceLocator.Resolve<DisableRoutesCommand>();
     public RemoveRoutesCommand? RemoveRoutes { get; } = ServiceLocator.Resolve<RemoveRoutesCommand>();
     public StartHttpServerCommand? StartHttpServer { get; } = ServiceLocator.Resolve<StartHttpServerCommand>();
     public StopHttpServerCommand? StopHttpServer { get; } = ServiceLocator.Resolve<StopHttpServerCommand>();

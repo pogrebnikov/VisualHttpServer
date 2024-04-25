@@ -1,14 +1,20 @@
-﻿using VisualHttpServer.Core;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using VisualHttpServer.Core;
 
 namespace VisualHttpServer.Model;
 
-internal class RouteUi
+public class RouteUi : INotifyPropertyChanged
 {
-    public string? Method { get; set; }
+    public required string? Method { get; set; }
 
-    public string? Path { get; set; }
+    public required string? Path { get; set; }
 
-    public ResponseUi? Response { get; set; }
+    public required ResponseUi? Response { get; set; }
+
+    public required bool Enabled { get; set; }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
 
     public Route ToServerRoute()
     {
@@ -16,7 +22,19 @@ internal class RouteUi
         {
             Method = Method!,
             Path = Path!,
-            Response = Response!.ToServerResponse()
+            Response = Response!.ToServerResponse(),
+            Enabled = Enabled
         };
+    }
+
+    public void Disable()
+    {
+        Enabled = false;
+        OnPropertyChanged(nameof(Enabled));
+    }
+
+    protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

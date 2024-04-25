@@ -50,5 +50,6 @@ internal static class ServiceLocator
         services.AddSingleton<StopHttpServerCommand>();
         services.AddSingleton<ClearRoutesCommand>();
         services.AddSingleton<RemoveRoutesCommand>();
+        services.AddSingleton<DisableRoutesCommand>();
     }
 }

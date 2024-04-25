@@ -27,7 +27,8 @@ internal class NewRouteWindowViewModel : INotifyPropertyChanged
         Response = new ResponseUi
         {
             StatusCode = HttpStatusCodes.Ok
-        }
+        },
+        Enabled = true
     };
 
     public IEnumerable<string> Methods => HttpMethods.All;

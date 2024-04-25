@@ -13,6 +13,12 @@ public class HttpServer : IHttpServer
         Body = null
     };
 
+    private readonly Response _response500 = new()
+    {
+        StatusCode = 500,
+        Body = "The route is disabled."
+    };
+
     public HttpServerState State { get; private set; } = HttpServerState.Stopped;
     public RouteCollection Routes { get; } = new();
     public InteractionCollection HandledInteractions { get; } = new();
@@ -87,7 +93,7 @@ public class HttpServer : IHttpServer
                     else
                     {
                         handled = true;
-                        response = route.Response;
+                        response = route.Enabled ? route.Response : _response500;
                     }
 
                     response.Write(stream);
