@@ -14,6 +14,8 @@ public class RouteUi : INotifyPropertyChanged
 
     public required bool Enabled { get; set; }
 
+    public bool Disabled => !Enabled;
+
     public event PropertyChangedEventHandler? PropertyChanged;
 
     public Route ToServerRoute()
@@ -30,6 +32,12 @@ public class RouteUi : INotifyPropertyChanged
     public void Disable()
     {
         Enabled = false;
+        OnPropertyChanged(nameof(Enabled));
+    }
+
+    public void Enable()
+    {
+        Enabled = true;
         OnPropertyChanged(nameof(Enabled));
     }
 

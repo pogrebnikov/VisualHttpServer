@@ -20,6 +20,9 @@ public partial class MainWindow : Window, IRoutesView
 
         var disableRoutesCommand = ServiceLocator.Resolve<DisableRoutesCommand>();
         disableRoutesCommand?.SetRoutesView(this);
+
+        var enableRoutesCommand = ServiceLocator.Resolve<EnableRoutesCommand>();
+        enableRoutesCommand?.SetRoutesView(this);
     }
 
     public int SelectedRoutesCount => RoutesListView.SelectedItems.Count;

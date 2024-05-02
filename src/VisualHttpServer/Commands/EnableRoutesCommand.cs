@@ -5,7 +5,7 @@ using VisualHttpServer.Model;
 
 namespace VisualHttpServer.Commands;
 
-internal class DisableRoutesCommand(RouteUiCollection routeCollection) : ICommand
+internal class EnableRoutesCommand(RouteUiCollection routeCollection) : ICommand
 {
     private IRoutesView? _routesView;
 
@@ -24,9 +24,9 @@ internal class DisableRoutesCommand(RouteUiCollection routeCollection) : IComman
         var routes = list.OfType<RouteUi>().ToArray();
         foreach (var route in routes)
         {
-            if (route.Enabled)
+            if (route.Disabled)
             {
-                route.Disable();
+                route.Enable();
             }
         }
 
@@ -72,8 +72,8 @@ internal class DisableRoutesCommand(RouteUiCollection routeCollection) : IComman
             return false;
         }
 
-        var anyEnabled = _routesView.SelectedRoutes.Any(route => route.Enabled);
+        var anyDisabled = _routesView.SelectedRoutes.Any(route => route.Disabled);
 
-        return anyEnabled;
+        return anyDisabled;
     }
 }
