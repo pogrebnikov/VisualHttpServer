@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Windows;
 using System.Windows.Input;
 using VisualHttpServer.Abstractions;
 using VisualHttpServer.Model;
@@ -27,7 +28,27 @@ internal class RemoveRoutesCommand : ICommand
         if (parameter is IList list)
         {
             var routes = list.OfType<RouteUi>().ToArray();
-            _routes.RemoveRange(routes);
+
+            if (routes.Length == 0)
+            {
+                return;
+            }
+
+            string question;
+            if (routes.Length == 1)
+            {
+                var route = routes.First();
+                question = $"Do you really want to remove the route {route.Method} '{route.Path}'?";
+            }
+            else
+            {
+                question = $"Do you really want to remove these {routes.Length} routes?";
+            }
+
+            if (MessageBox.Show(question, "Remove routes", MessageBoxButton.YesNo) == MessageBoxResult.Yes)
+            {
+                _routes.RemoveRange(routes);
+            }
         }
     }
 
