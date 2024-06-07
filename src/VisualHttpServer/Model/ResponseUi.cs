@@ -2,7 +2,7 @@
 
 namespace VisualHttpServer.Model;
 
-internal class ResponseUi
+public class ResponseUi
 {
     public int StatusCode { get; set; }
 
@@ -11,6 +11,21 @@ internal class ResponseUi
     public Response ToServerResponse()
     {
         return new Response
+        {
+            StatusCode = StatusCode,
+            Body = Body
+        };
+    }
+
+    public void Update(ResponseUi source)
+    {
+        StatusCode = source.StatusCode;
+        Body = source.Body;
+    }
+
+    public ResponseUi Clone()
+    {
+        return new ResponseUi
         {
             StatusCode = StatusCode,
             Body = Body

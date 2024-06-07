@@ -46,8 +46,13 @@ internal static class ServiceLocator
         services.AddSingleton<IHttpServer, HttpServer>();
         services.AddSingleton<IMessageViewer, MessageViewer>();
         services.AddSingleton<RouteUiCollection>();
-        services.AddTransient<StartHttpServerCommand>();
-        services.AddTransient<StopHttpServerCommand>();
-        services.AddTransient<ClearRoutesCommand>();
+        services.AddSingleton<StartHttpServerCommand>();
+        services.AddSingleton<StopHttpServerCommand>();
+        services.AddSingleton<EditRouteCommand>();
+        services.AddSingleton<DisableRoutesCommand>();
+        services.AddSingleton<EnableRoutesCommand>();
+        services.AddSingleton<RemoveRoutesCommand>();
+        services.AddSingleton<ClearRoutesCommand>();
+        services.AddSingleton<SaveRouteCommand>();
     }
 }

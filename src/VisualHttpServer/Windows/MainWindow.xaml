@@ -47,7 +47,7 @@
             </StackPanel>
             <TabControl>
                 <TabItem Header="{Binding Path=Routes.Count}" HeaderStringFormat="Routes ({0})">
-                    <ListView ItemsSource="{Binding Routes}" Name="RoutesListView">
+                    <ListView ItemsSource="{Binding Routes}" Name="RoutesListView" SelectionChanged="RoutesListView_OnSelectionChanged">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn>
@@ -58,16 +58,41 @@
                                     </GridViewColumn.HeaderTemplate>
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding Method}" TextAlignment="Center" />
+                                            <TextBlock Text="{Binding Method}" TextAlignment="Center">
+                                                <TextBlock.Resources>
+                                                    <Style TargetType="{x:Type TextBlock}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Enabled}" Value="False">
+                                                                <Setter Property="TextDecorations" Value="Strikethrough" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Resources>
+                                            </TextBlock>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path}">
+                                <GridViewColumn>
                                     <GridViewColumn.HeaderTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="Path" Style="{StaticResource TableHeader}" />
                                         </DataTemplate>
                                     </GridViewColumn.HeaderTemplate>
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path}" TextAlignment="Center">
+                                                <TextBlock.Resources>
+                                                    <Style TargetType="{x:Type TextBlock}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Enabled}" Value="False">
+                                                                <Setter Property="TextDecorations" Value="Strikethrough" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Resources>
+                                            </TextBlock>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
                                 <GridViewColumn>
                                     <GridViewColumn.HeaderTemplate>
@@ -77,12 +102,47 @@
                                     </GridViewColumn.HeaderTemplate>
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding Response.StatusCode}" TextAlignment="Center" />
+                                            <TextBlock Text="{Binding Response.StatusCode}" TextAlignment="Center">
+                                                <TextBlock.Resources>
+                                                    <Style TargetType="{x:Type TextBlock}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Enabled}" Value="False">
+                                                                <Setter Property="TextDecorations" Value="Strikethrough" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Resources>
+                                            </TextBlock>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
                             </GridView>
                         </ListView.View>
+                        <ListView.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Add..." Command="{Binding NewRoute}" />
+                                <MenuItem Header="Edit..." Command="{Binding EditRoute}"
+                                          CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
+                                <MenuItem Header="Disable" Command="{Binding DisableRoutes}"
+                                          Visibility="{Binding DisableRoutesVisibility}"
+                                          CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItems}" />
+                                <MenuItem Header="Enable" Command="{Binding EnableRoutes}"
+                                          Visibility="{Binding EnableRoutesVisibility}"
+                                          CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItems}" />
+                                <MenuItem Header="Remove" Command="{Binding RemoveRoutes}"
+                                          CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItems}" />
+                                <MenuItem Header="Clear" Command="{Binding ClearRoutes}" />
+                            </ContextMenu>
+                        </ListView.ContextMenu>
+                        <ListView.Resources>
+                            <Style TargetType="{x:Type ListViewItem}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Enabled}" Value="False">
+                                        <Setter Property="Background" Value="LightGray" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListView.Resources>
                     </ListView>
                 </TabItem>
                 <TabItem Header="{Binding Path=HandledRequests.Count}" HeaderStringFormat="Handled Requests ({0})">
