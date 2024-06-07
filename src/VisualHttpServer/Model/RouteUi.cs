@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using VisualHttpServer.Core;
 
 namespace VisualHttpServer.Model;
@@ -41,7 +40,25 @@ public class RouteUi : INotifyPropertyChanged
         OnPropertyChanged(nameof(Enabled));
     }
 
-    protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
+    public void Update(RouteUi sourceRoute)
+    {
+        Method = sourceRoute.Method;
+        Path = sourceRoute.Path;
+        Response!.Update(sourceRoute.Response!);
+    }
+
+    public RouteUi Clone()
+    {
+        return new RouteUi
+        {
+            Method = Method,
+            Path = Path,
+            Response = Response!.Clone(),
+            Enabled = Enabled
+        };
+    }
+
+    protected virtual void OnPropertyChanged(string propertyName)
     {
         PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }

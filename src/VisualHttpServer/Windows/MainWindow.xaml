@@ -121,7 +121,8 @@
                         <ListView.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Add..." Command="{Binding NewRoute}" />
-                                <MenuItem Header="Edit..." Command="{Binding EditRoute}" />
+                                <MenuItem Header="Edit..." Command="{Binding EditRoute}"
+                                          CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
                                 <MenuItem Header="Disable" Command="{Binding DisableRoutes}"
                                           Visibility="{Binding DisableRoutesVisibility}"
                                           CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItems}" />

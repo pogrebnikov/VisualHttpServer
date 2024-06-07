@@ -16,4 +16,19 @@ public class ResponseUi
             Body = Body
         };
     }
+
+    public void Update(ResponseUi source)
+    {
+        StatusCode = source.StatusCode;
+        Body = source.Body;
+    }
+
+    public ResponseUi Clone()
+    {
+        return new ResponseUi
+        {
+            StatusCode = StatusCode,
+            Body = Body
+        };
+    }
 }

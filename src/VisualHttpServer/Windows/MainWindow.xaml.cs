@@ -15,6 +15,9 @@ public partial class MainWindow : Window, IRoutesView
     {
         InitializeComponent();
 
+        var editRouteCommand = ServiceLocator.Resolve<EditRouteCommand>();
+        editRouteCommand?.SetRoutesView(this);
+
         var removeRouteCommand = ServiceLocator.Resolve<RemoveRoutesCommand>();
         removeRouteCommand?.SetRoutesView(this);
 
@@ -37,6 +40,11 @@ public partial class MainWindow : Window, IRoutesView
     }
 
     public event EventHandler? RoutesSelectionChanged;
+
+    public void RefreshRoutesListView()
+    {
+        RoutesListView.Items.Refresh();
+    }
 
     private void RoutesListView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
     {

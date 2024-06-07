@@ -54,7 +54,8 @@ internal class MainWindowViewModel : INotifyPropertyChanged
     public ObservableCollection<Interaction> UnhandledRequests { get; } = new();
 
     public NewRouteCommand NewRoute { get; } = new();
-    
+    public EditRouteCommand? EditRoute { get; } = ServiceLocator.Resolve<EditRouteCommand>();
+
     public DisableRoutesCommand? DisableRoutes { get; } = ServiceLocator.Resolve<DisableRoutesCommand>();
     public Visibility DisableRoutesVisibility { get; set; } = Visibility.Collapsed;
     
