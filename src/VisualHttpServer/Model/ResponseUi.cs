@@ -1,10 +1,27 @@
-﻿using VisualHttpServer.Core;
+﻿using System.ComponentModel;
+using System.Runtime.CompilerServices;
+using VisualHttpServer.Core;
 
 namespace VisualHttpServer.Model;
 
-public class ResponseUi
+public class ResponseUi : INotifyPropertyChanged
 {
-    public int StatusCode { get; set; }
+    private int _statusCode;
+
+    public int StatusCode
+    {
+        get => _statusCode;
+        set
+        {
+            var changed = _statusCode != value;
+            _statusCode = value;
+
+            if (changed)
+            {
+                OnPropertyChanged(nameof(StatusCode));
+            }
+        }
+    }
 
     public string? Body { get; set; }
 
@@ -30,5 +47,12 @@ public class ResponseUi
             StatusCode = StatusCode,
             Body = Body
         };
+    }
+
+    public event PropertyChangedEventHandler? PropertyChanged;
+
+    protected virtual void OnPropertyChanged(string propertyName)
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propertyName));
     }
 }

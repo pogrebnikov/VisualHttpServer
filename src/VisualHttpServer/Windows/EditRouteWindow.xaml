@@ -16,6 +16,7 @@
                     <TextBlock Text="Method" Margin="10, 5, 0, 0" />
                     <TextBlock Text="*" Foreground="Red" Margin="2, 5, 5, 0" />
                     <TextBox Text="{Binding Route.Method}" Height="21" Width="50" />
+                    <TextBlock Text="{Binding MethodWarning}" Foreground="DarkOrange" Margin="10, 5, 5, 0" />
                 </StackPanel>
                 <DockPanel LastChildFill="True">
                     <TextBlock Text="Path" Margin="10, 2, 0, 0" />
@@ -37,6 +38,7 @@
                         <TextBlock Text="Status code" Margin="10, 5, 0, 0" />
                         <TextBlock Text="*" Foreground="Red" Margin="2, 5, 5, 0" />
                         <TextBox Text="{Binding Route.Response.StatusCode}" Height="21" Width="50" />
+                        <TextBlock Text="{Binding StatusCodeWarning}" Foreground="DarkOrange" Margin="10, 5, 5, 0" />
                     </StackPanel>
                     <TextBlock Text="Body" DockPanel.Dock="Top" Height="20" Margin="10, 5, 0, 0" />
                     <ScrollViewer Margin="5, 0, 5, 5">

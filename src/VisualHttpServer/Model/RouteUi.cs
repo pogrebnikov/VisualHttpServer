@@ -5,7 +5,22 @@ namespace VisualHttpServer.Model;
 
 public class RouteUi : INotifyPropertyChanged
 {
-    public required string? Method { get; set; }
+    private string? _method;
+
+    public required string? Method
+    {
+        get => _method;
+        set
+        {
+            var changed = _method != value;
+            _method = value;
+
+            if (changed)
+            {
+                OnPropertyChanged(nameof(Method));
+            }
+        }
+    }
 
     public required string? Path { get; set; }
 
