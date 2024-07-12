@@ -118,6 +118,11 @@
                                 </GridViewColumn>
                             </GridView>
                         </ListView.View>
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <EventSetter Event="MouseDoubleClick" Handler="RouteListView_MouseDoubleClick" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
                         <ListView.ContextMenu>
                             <ContextMenu>
                                 <MenuItem Header="Add..." Command="{Binding NewRoute}" />

@@ -27,9 +27,7 @@ internal class EditRouteCommand : ICommand
             throw new InvalidOperationException($"{nameof(_routesView)} is null.");
         }
 
-        var route = parameter as RouteUi;
-
-        if (route is null)
+        if (parameter is not RouteUi route)
         {
             return;
         }
@@ -41,7 +39,7 @@ internal class EditRouteCommand : ICommand
         viewModel.SetEditedRoute(route);
         viewModel.SetCloseEditWindowAction(window.Close);
 
-        window.Show();
+        window.ShowDialog();
     }
 
     public event EventHandler? CanExecuteChanged;

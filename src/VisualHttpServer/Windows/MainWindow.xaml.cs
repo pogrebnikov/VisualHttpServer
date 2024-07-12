@@ -1,5 +1,6 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Input;
 using VisualHttpServer.Abstractions;
 using VisualHttpServer.Commands;
 using VisualHttpServer.Model;
@@ -46,8 +47,20 @@ public partial class MainWindow : Window, IRoutesView
         RoutesListView.Items.Refresh();
     }
 
+    private MainWindowViewModel ViewModel => (MainWindowViewModel)DataContext;
+
     private void RoutesListView_OnSelectionChanged(object sender, SelectionChangedEventArgs e)
     {
         RoutesSelectionChanged?.Invoke(this, EventArgs.Empty);
+    }
+
+    private void RouteListView_MouseDoubleClick(object sender, MouseButtonEventArgs e)
+    {
+        if (sender is not ListViewItem { Content: RouteUi route })
+        {
+            return;
+        }
+
+        ViewModel.EditRoute?.Execute(route);
     }
 }
