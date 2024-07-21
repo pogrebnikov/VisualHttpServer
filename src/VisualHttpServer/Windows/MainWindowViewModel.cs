@@ -55,6 +55,7 @@ internal class MainWindowViewModel : INotifyPropertyChanged
 
     public NewRouteCommand NewRoute { get; } = new();
     public EditRouteCommand? EditRoute { get; } = ServiceLocator.Resolve<EditRouteCommand>();
+    public DuplicateRouteCommand? DuplicateRoute { get; } = ServiceLocator.Resolve<DuplicateRouteCommand>();
 
     public DisableRoutesCommand? DisableRoutes { get; } = ServiceLocator.Resolve<DisableRoutesCommand>();
     public Visibility DisableRoutesVisibility { get; set; } = Visibility.Collapsed;

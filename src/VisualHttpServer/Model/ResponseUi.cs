@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel;
-using System.Runtime.CompilerServices;
 using VisualHttpServer.Core;
 
 namespace VisualHttpServer.Model;
@@ -7,6 +6,7 @@ namespace VisualHttpServer.Model;
 public class ResponseUi : INotifyPropertyChanged
 {
     private int _statusCode;
+    private string? _body;
 
     public int StatusCode
     {
@@ -23,7 +23,20 @@ public class ResponseUi : INotifyPropertyChanged
         }
     }
 
-    public string? Body { get; set; }
+    public string? Body
+    {
+        get => _body;
+        set
+        {
+            var changed = _body != value;
+            _body = value;
+
+            if (changed)
+            {
+                OnPropertyChanged(nameof(Body));
+            }
+        }
+    }
 
     public Response ToServerResponse()
     {

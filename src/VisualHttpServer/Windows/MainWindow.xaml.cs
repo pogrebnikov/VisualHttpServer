@@ -19,6 +19,9 @@ public partial class MainWindow : Window, IRoutesView
         var editRouteCommand = ServiceLocator.Resolve<EditRouteCommand>();
         editRouteCommand?.SetRoutesView(this);
 
+        var duplicateRouteCommand = ServiceLocator.Resolve<DuplicateRouteCommand>();
+        duplicateRouteCommand?.SetRoutesView(this);
+
         var removeRouteCommand = ServiceLocator.Resolve<RemoveRoutesCommand>();
         removeRouteCommand?.SetRoutesView(this);
 
