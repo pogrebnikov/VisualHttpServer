@@ -66,4 +66,12 @@ public partial class MainWindow : Window, IRoutesView
 
         ViewModel.EditRoute?.Execute(route);
     }
+
+    private void RouteListView_KeyDown(object sender, KeyEventArgs e)
+    {
+        if (e.Key == Key.Delete)
+        {
+            ViewModel.RemoveRoutes!.Execute(SelectedRoutes);
+        }
+    }
 }
