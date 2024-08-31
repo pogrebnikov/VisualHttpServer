@@ -28,7 +28,7 @@ internal class MainWindowViewModel : INotifyPropertyChanged
 
         if (EnableRoutes is not null)
         {
-            EnableRoutes.CanExecuteChanged+= EnableRoutes_CanExecuteChanged;
+            EnableRoutes.CanExecuteChanged += EnableRoutes_CanExecuteChanged;
             EnableRoutes.Executed += EnableRoutes_Executed;
         }
 
@@ -41,8 +41,6 @@ internal class MainWindowViewModel : INotifyPropertyChanged
         dispatcherTimer.Start();
     }
 
-    public event PropertyChangedEventHandler? PropertyChanged;
-
     public ConnectionSettings ConnectionSettings { get; } = new()
     {
         Host = "127.0.0.1",
@@ -50,8 +48,8 @@ internal class MainWindowViewModel : INotifyPropertyChanged
     };
 
     public ObservableCollection<RouteUi> Routes { get; }
-    public ObservableCollection<Interaction> HandledRequests { get; } = new();
-    public ObservableCollection<Interaction> UnhandledRequests { get; } = new();
+    public ObservableCollection<InteractionUi> HandledRequests { get; } = new();
+    public ObservableCollection<InteractionUi> UnhandledRequests { get; } = new();
 
     public NewRouteCommand NewRoute { get; } = new();
     public EditRouteCommand? EditRoute { get; } = ServiceLocator.Resolve<EditRouteCommand>();
@@ -59,20 +57,22 @@ internal class MainWindowViewModel : INotifyPropertyChanged
 
     public DisableRoutesCommand? DisableRoutes { get; } = ServiceLocator.Resolve<DisableRoutesCommand>();
     public Visibility DisableRoutesVisibility { get; set; } = Visibility.Collapsed;
-    
+
     public EnableRoutesCommand? EnableRoutes { get; } = ServiceLocator.Resolve<EnableRoutesCommand>();
     public Visibility EnableRoutesVisibility { get; set; } = Visibility.Collapsed;
-    
+
     public RemoveRoutesCommand? RemoveRoutes { get; } = ServiceLocator.Resolve<RemoveRoutesCommand>();
-    
+
     public StartHttpServerCommand? StartHttpServer { get; } = ServiceLocator.Resolve<StartHttpServerCommand>();
     public Visibility StartHttpServerVisibility { get; set; } = Visibility.Visible;
-    
+
     public StopHttpServerCommand? StopHttpServer { get; } = ServiceLocator.Resolve<StopHttpServerCommand>();
     public Visibility StopHttpServerVisibility { get; set; } = Visibility.Collapsed;
 
     public ClearRoutesCommand? ClearRoutes { get; } = ServiceLocator.Resolve<ClearRoutesCommand>();
     public AboutProgramCommand AboutProgram { get; } = new();
+
+    public event PropertyChangedEventHandler? PropertyChanged;
 
     protected virtual void OnPropertyChanged([CallerMemberName] string? propertyName = null)
     {
@@ -156,13 +156,25 @@ internal class MainWindowViewModel : INotifyPropertyChanged
 
             foreach (var interaction in _httpServer.HandledInteractions.PopAll())
             {
-                HandledRequests.Insert(0, interaction);
+                HandledRequests.Insert(0, ConvertToUi(interaction));
             }
 
             foreach (var interaction in _httpServer.UnhandledInteractions.PopAll())
             {
-                UnhandledRequests.Insert(0, interaction);
+                UnhandledRequests.Insert(0, ConvertToUi(interaction));
             }
         }
+    }
+
+    private static InteractionUi ConvertToUi(Interaction interaction)
+    {
+        return new InteractionUi
+        {
+            Time = interaction.Request.Time,
+            Method = interaction.Request.Method,
+            Path = interaction.Request.Path,
+            StatusCode = interaction.Response.Status.Code,
+            ReasonPhrase = interaction.Response.Status.ReasonPhrase
+        };
     }
 }

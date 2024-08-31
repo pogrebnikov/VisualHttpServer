@@ -3,12 +3,13 @@ using VisualHttpServer.Core;
 
 namespace VisualHttpServer.Model;
 
-public class ResponseUi : INotifyPropertyChanged
+internal class ResponseUi : INotifyPropertyChanged
 {
     private int _statusCode;
-    private string? _body;
+    private string _reasonPhrase = string.Empty;
+    private string _body = string.Empty;
 
-    public int StatusCode
+    public required int StatusCode
     {
         get => _statusCode;
         set
@@ -23,7 +24,24 @@ public class ResponseUi : INotifyPropertyChanged
         }
     }
 
-    public string? Body
+    public required string ReasonPhrase
+    {
+        get => _reasonPhrase;
+        set
+        {
+            var changed = _reasonPhrase != value;
+            _reasonPhrase = value;
+
+            if (changed)
+            {
+                OnPropertyChanged(nameof(ReasonPhrase));
+            }
+        }
+    }
+
+    public string StatusCodeWithReasonPhrase => $"{StatusCode} {ReasonPhrase}";
+
+    public required string Body
     {
         get => _body;
         set
@@ -38,11 +56,13 @@ public class ResponseUi : INotifyPropertyChanged
         }
     }
 
-    public Response ToServerResponse()
+    public Response ToServerResponse(ResponseStatusCollection responseStatuses)
     {
+        var responseStatus = responseStatuses.GetOrCreate(StatusCode);
+
         return new Response
         {
-            StatusCode = StatusCode,
+            Status = responseStatus,
             Body = Body
         };
     }
@@ -58,6 +78,7 @@ public class ResponseUi : INotifyPropertyChanged
         return new ResponseUi
         {
             StatusCode = StatusCode,
+            ReasonPhrase = ReasonPhrase,
             Body = Body
         };
     }

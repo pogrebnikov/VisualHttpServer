@@ -10,7 +10,7 @@ namespace VisualHttpServer.Windows;
 /// <summary>
 /// Interaction logic for MainWindow.xaml
 /// </summary>
-public partial class MainWindow : Window, IRoutesView
+internal partial class MainWindow : Window, IRoutesView
 {
     public MainWindow()
     {

@@ -1,6 +1,7 @@
 ﻿using System.ComponentModel;
 using VisualHttpServer.Abstractions;
 using VisualHttpServer.Commands;
+using VisualHttpServer.Core;
 using VisualHttpServer.Model;
 
 namespace VisualHttpServer.Windows;
@@ -104,13 +105,20 @@ internal class EditRouteWindowViewModel : INotifyPropertyChanged
     {
         var statusCode = Route!.Response!.StatusCode;
 
-        if (!HttpStatusCodes.All.Contains(statusCode))
+        var responseStatuses = ServiceLocator.Resolve<ResponseStatusCollection>();
+        var responseStatus = responseStatuses!.Get(statusCode);
+
+        if (responseStatus is null)
         {
+            Route.Response.ReasonPhrase = string.Empty;
+            
             StatusCodeWarning = $"Warning: '{statusCode}' not in the list of HTTP status codes!";
             OnPropertyChanged(nameof(StatusCodeWarning));
         }
         else
         {
+            Route.Response.ReasonPhrase = responseStatus.ReasonPhrase;
+
             if (!string.IsNullOrEmpty(StatusCodeWarning))
             {
                 StatusCodeWarning = string.Empty;

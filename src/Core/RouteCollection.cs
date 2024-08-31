@@ -48,7 +48,7 @@ public class RouteCollection : IEnumerable<Route>
             throw new ArgumentException("Path of the route is null or empty.");
         }
 
-        if (route.Response.StatusCode == 0)
+        if (route.Response.Status.Code == 0)
         {
             throw new ArgumentException("StatusCode of the response is 0.");
         }

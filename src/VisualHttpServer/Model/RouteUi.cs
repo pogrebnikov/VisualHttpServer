@@ -3,7 +3,7 @@ using VisualHttpServer.Core;
 
 namespace VisualHttpServer.Model;
 
-public class RouteUi : INotifyPropertyChanged
+internal class RouteUi : INotifyPropertyChanged
 {
     private string? _method;
     private string? _path;
@@ -46,13 +46,13 @@ public class RouteUi : INotifyPropertyChanged
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
-    public Route ToServerRoute()
+    public Route ToServerRoute(ResponseStatusCollection responseStatuses)
     {
         return new Route
         {
             Method = Method!,
             Path = Path!,
-            Response = Response!.ToServerResponse(),
+            Response = Response!.ToServerResponse(responseStatuses),
             Enabled = Enabled
         };
     }

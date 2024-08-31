@@ -3,7 +3,7 @@ using VisualHttpServer.Core;
 
 namespace VisualHttpServer.Model;
 
-internal class RouteUiCollection(IHttpServer httpServer)
+internal class RouteUiCollection(IHttpServer httpServer, ResponseStatusCollection responseStatuses)
 {
     private readonly ObservableCollection<RouteUi> _collection = new();
 
@@ -46,7 +46,7 @@ internal class RouteUiCollection(IHttpServer httpServer)
 
     private void UpdateServerRoutes()
     {
-        var routes = _collection.Select(route => route.ToServerRoute()).ToArray();
+        var routes = _collection.Select(route => route.ToServerRoute(responseStatuses)).ToArray();
 
         httpServer.Routes.Update(routes);
     }

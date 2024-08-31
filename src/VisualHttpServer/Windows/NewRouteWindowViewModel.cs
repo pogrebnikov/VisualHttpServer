@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel;
 using VisualHttpServer.Commands;
+using VisualHttpServer.Core;
 using VisualHttpServer.Model;
 using VisualHttpServer.Services;
 
@@ -9,18 +10,28 @@ internal class NewRouteWindowViewModel : INotifyPropertyChanged
 {
     public NewRouteWindowViewModel()
     {
-        Route = new RouteUi
+        var responseStatuses = ServiceLocator.Resolve<ResponseStatusCollection>();
+
+        if (responseStatuses is not null)
         {
-            Method = HttpMethods.Get,
-            Path = "/",
-            Response = new ResponseUi
+            var responseStatus = responseStatuses.Ok;
+
+            Route = new RouteUi
             {
-                StatusCode = HttpStatusCodes.Ok
-            },
-            Enabled = true
-        };
-        Route.PropertyChanged += Route_PropertyChanged;
-        Route.Response.PropertyChanged += RouteResponse_PropertyChanged;
+                Method = HttpMethods.Get,
+                Path = "/",
+                Response = new ResponseUi
+                {
+                    StatusCode = responseStatus.Code,
+                    ReasonPhrase = responseStatus.ReasonPhrase,
+                    Body = string.Empty
+                },
+                Enabled = true
+            };
+
+            Route.PropertyChanged += Route_PropertyChanged;
+            Route.Response.PropertyChanged += RouteResponse_PropertyChanged;
+        }
 
         var routes = ServiceLocator.Resolve<RouteUiCollection>();
         var messageViewer = ServiceLocator.Resolve<IMessageViewer>();
@@ -33,7 +44,7 @@ internal class NewRouteWindowViewModel : INotifyPropertyChanged
 
     public CreateRouteCommand? CreateRoute { get; }
 
-    public RouteUi Route { get; }
+    public RouteUi? Route { get; }
 
     public string? MethodWarning { get; set; }
 
@@ -64,13 +75,20 @@ internal class NewRouteWindowViewModel : INotifyPropertyChanged
     {
         var statusCode = Route.Response!.StatusCode;
 
-        if (!HttpStatusCodes.All.Contains(statusCode))
+        var responseStatuses = ServiceLocator.Resolve<ResponseStatusCollection>();
+        var responseStatus = responseStatuses!.Get(statusCode);
+
+        if (responseStatus is null)
         {
+            Route.Response.ReasonPhrase = string.Empty;
+
             StatusCodeWarning = $"Warning: '{statusCode}' not in the list of HTTP status codes!";
             OnPropertyChanged(nameof(StatusCodeWarning));
         }
         else
         {
+            Route.Response.ReasonPhrase = responseStatus.ReasonPhrase;
+
             if (!string.IsNullOrEmpty(StatusCodeWarning))
             {
                 StatusCodeWarning = string.Empty;

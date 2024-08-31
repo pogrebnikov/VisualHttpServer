@@ -1,6 +1,9 @@
-﻿using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
 using VisualHttpServer.Commands;
+using VisualHttpServer.Configuration;
 using VisualHttpServer.Core;
+using VisualHttpServer.Core.Configuration;
 using VisualHttpServer.Model;
 using VisualHttpServer.Services;
 
@@ -10,7 +13,7 @@ internal static class ServiceLocator
 {
     private static ServiceProvider? _serviceProvider;
 
-    public static void Init()
+    public static void Init(IConfiguration configuration)
     {
         if (_serviceProvider is not null)
         {
@@ -19,7 +22,7 @@ internal static class ServiceLocator
 
         var serviceCollection = new ServiceCollection();
 
-        ConfigureServices(serviceCollection);
+        ConfigureServices(serviceCollection, configuration);
 
         _serviceProvider = serviceCollection.BuildServiceProvider();
     }
@@ -41,9 +44,11 @@ internal static class ServiceLocator
         return service;
     }
 
-    private static void ConfigureServices(IServiceCollection services)
+    private static void ConfigureServices(IServiceCollection services, IConfiguration configuration)
     {
         services.AddSingleton<IHttpServer, HttpServer>();
+        services.AddSingleton<IConfig>(new Config(configuration));
+        services.AddSingleton<ResponseStatusCollection>();
         services.AddSingleton<IMessageViewer, MessageViewer>();
         services.AddSingleton<RouteUiCollection>();
         services.AddSingleton<StartHttpServerCommand>();

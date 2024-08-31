@@ -3,19 +3,19 @@ using System.Net.Sockets;
 
 namespace VisualHttpServer.Core;
 
-public class HttpServer : IHttpServer
+public class HttpServer(ResponseStatusCollection responseStatuses) : IHttpServer
 {
     private TcpListener? _listener;
 
     private readonly Response _response404 = new()
     {
-        StatusCode = 404,
+        Status = responseStatuses.NotFound,
         Body = null
     };
 
     private readonly Response _response500 = new()
     {
-        StatusCode = 500,
+        Status = responseStatuses.InternalServerError,
         Body = "The route is disabled."
     };
 
