@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:windows="clr-namespace:VisualHttpServer.Windows"
         mc:Ignorable="d"
-        Title="Visual HTTP Server" Height="450" Width="800">
+        Title="Visual HTTP Server" Height="450" Width="800" x:ClassModifier="internal">
     <Window.DataContext>
         <windows:MainWindowViewModel />
     </Window.DataContext>
@@ -47,7 +47,7 @@
             </StackPanel>
             <TabControl>
                 <TabItem Header="{Binding Path=Routes.Count}" HeaderStringFormat="Routes ({0})">
-                    <ListView ItemsSource="{Binding Routes}" Name="RoutesListView">
+                    <ListView ItemsSource="{Binding Routes}" Name="RoutesListView" SelectionChanged="RoutesListView_OnSelectionChanged">
                         <ListView.View>
                             <GridView>
                                 <GridViewColumn>
@@ -58,16 +58,41 @@
                                     </GridViewColumn.HeaderTemplate>
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding Method}" TextAlignment="Center" />
+                                            <TextBlock Text="{Binding Method}" TextAlignment="Center">
+                                                <TextBlock.Resources>
+                                                    <Style TargetType="{x:Type TextBlock}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Enabled}" Value="False">
+                                                                <Setter Property="TextDecorations" Value="Strikethrough" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Resources>
+                                            </TextBlock>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn DisplayMemberBinding="{Binding Path}">
+                                <GridViewColumn>
                                     <GridViewColumn.HeaderTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="Path" Style="{StaticResource TableHeader}" />
                                         </DataTemplate>
                                     </GridViewColumn.HeaderTemplate>
+                                    <GridViewColumn.CellTemplate>
+                                        <DataTemplate>
+                                            <TextBlock Text="{Binding Path}" TextAlignment="Center">
+                                                <TextBlock.Resources>
+                                                    <Style TargetType="{x:Type TextBlock}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Enabled}" Value="False">
+                                                                <Setter Property="TextDecorations" Value="Strikethrough" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Resources>
+                                            </TextBlock>
+                                        </DataTemplate>
+                                    </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
                                 <GridViewColumn>
                                     <GridViewColumn.HeaderTemplate>
@@ -77,19 +102,62 @@
                                     </GridViewColumn.HeaderTemplate>
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding Response.StatusCode}" TextAlignment="Center" />
+                                            <TextBlock Text="{Binding Response.StatusCodeWithReasonPhrase}" TextAlignment="Center">
+                                                <TextBlock.Resources>
+                                                    <Style TargetType="{x:Type TextBlock}">
+                                                        <Style.Triggers>
+                                                            <DataTrigger Binding="{Binding Enabled}" Value="False">
+                                                                <Setter Property="TextDecorations" Value="Strikethrough" />
+                                                            </DataTrigger>
+                                                        </Style.Triggers>
+                                                    </Style>
+                                                </TextBlock.Resources>
+                                            </TextBlock>
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
                             </GridView>
                         </ListView.View>
+                        <ListView.ItemContainerStyle>
+                            <Style TargetType="ListViewItem">
+                                <EventSetter Event="MouseDoubleClick" Handler="RouteListView_MouseDoubleClick" />
+                                <EventSetter Event="KeyDown" Handler="RouteListView_KeyDown" />
+                            </Style>
+                        </ListView.ItemContainerStyle>
+                        <ListView.ContextMenu>
+                            <ContextMenu>
+                                <MenuItem Header="Add..." Command="{Binding NewRoute}" />
+                                <MenuItem Header="Edit..." Command="{Binding EditRoute}"
+                                          CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
+                                <MenuItem Header="Duplicate..." Command="{Binding DuplicateRoute}"
+                                          CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItem}" />
+                                <MenuItem Header="Disable" Command="{Binding DisableRoutes}"
+                                          Visibility="{Binding DisableRoutesVisibility}"
+                                          CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItems}" />
+                                <MenuItem Header="Enable" Command="{Binding EnableRoutes}"
+                                          Visibility="{Binding EnableRoutesVisibility}"
+                                          CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItems}" />
+                                <MenuItem Header="Remove" Command="{Binding RemoveRoutes}"
+                                          CommandParameter="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.SelectedItems}" />
+                                <MenuItem Header="Clear" Command="{Binding ClearRoutes}" />
+                            </ContextMenu>
+                        </ListView.ContextMenu>
+                        <ListView.Resources>
+                            <Style TargetType="{x:Type ListViewItem}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Enabled}" Value="False">
+                                        <Setter Property="Background" Value="LightGray" />
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </ListView.Resources>
                     </ListView>
                 </TabItem>
                 <TabItem Header="{Binding Path=HandledRequests.Count}" HeaderStringFormat="Handled Requests ({0})">
                     <ListView ItemsSource="{Binding HandledRequests}">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn DisplayMemberBinding="{Binding Request.Time,StringFormat=\{0:hh\\:mm\\:ss\}}">
+                                <GridViewColumn DisplayMemberBinding="{Binding Time,StringFormat=\{0:hh\\:mm\\:ss\}}">
                                     <GridViewColumn.HeaderTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="Time" Style="{StaticResource TableHeader}" />
@@ -104,7 +172,7 @@
                                     </GridViewColumn.HeaderTemplate>
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding Request.Method}" TextAlignment="Center" />
+                                            <TextBlock Text="{Binding Method}" TextAlignment="Center" />
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
@@ -116,11 +184,11 @@
                                     </GridViewColumn.HeaderTemplate>
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding Response.StatusCode}" TextAlignment="Center" />
+                                            <TextBlock Text="{Binding StatusCodeWithReasonPhrase}" TextAlignment="Center" />
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn DisplayMemberBinding="{Binding Request.Path}">
+                                <GridViewColumn DisplayMemberBinding="{Binding Path}">
                                     <GridViewColumn.HeaderTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="Path" Style="{StaticResource TableHeader}" />
@@ -135,7 +203,7 @@
                     <ListView ItemsSource="{Binding UnhandledRequests}">
                         <ListView.View>
                             <GridView>
-                                <GridViewColumn DisplayMemberBinding="{Binding Request.Time,StringFormat=\{0:hh\\:mm\\:ss\}}">
+                                <GridViewColumn DisplayMemberBinding="{Binding Time,StringFormat=\{0:hh\\:mm\\:ss\}}">
                                     <GridViewColumn.HeaderTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="Time" Style="{StaticResource TableHeader}" />
@@ -150,7 +218,7 @@
                                     </GridViewColumn.HeaderTemplate>
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding Request.Method}" TextAlignment="Center" />
+                                            <TextBlock Text="{Binding Method}" TextAlignment="Center" />
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
@@ -162,11 +230,11 @@
                                     </GridViewColumn.HeaderTemplate>
                                     <GridViewColumn.CellTemplate>
                                         <DataTemplate>
-                                            <TextBlock Text="{Binding Response.StatusCode}" TextAlignment="Center" />
+                                            <TextBlock Text="{Binding StatusCodeWithReasonPhrase}" TextAlignment="Center" />
                                         </DataTemplate>
                                     </GridViewColumn.CellTemplate>
                                 </GridViewColumn>
-                                <GridViewColumn DisplayMemberBinding="{Binding Request.Path}">
+                                <GridViewColumn DisplayMemberBinding="{Binding Path}">
                                     <GridViewColumn.HeaderTemplate>
                                         <DataTemplate>
                                             <TextBlock Text="Path" Style="{StaticResource TableHeader}" />

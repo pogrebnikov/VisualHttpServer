@@ -17,7 +17,7 @@ internal class CreateRouteCommand(RouteUiCollection routes, IMessageViewer messa
     {
         if (parameter is RouteUi route)
         {
-            if (!Validate(route, routes))
+            if (!Validate(route))
             {
                 return;
             }
@@ -29,7 +29,7 @@ internal class CreateRouteCommand(RouteUiCollection routes, IMessageViewer messa
 
     public event EventHandler? CanExecuteChanged;
 
-    private bool Validate(RouteUi route, RouteUiCollection routes)
+    private bool Validate(RouteUi route)
     {
         if (string.IsNullOrWhiteSpace(route.Method) || string.IsNullOrWhiteSpace(route.Path))
         {

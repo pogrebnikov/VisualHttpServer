@@ -5,7 +5,7 @@ namespace VisualHttpServer.Core;
 public class Response
 {
     private const string EndOfLine = "\r\n";
-    public required int StatusCode { get; init; }
+    public required ResponseStatus Status { get; init; }
 
     public required string? Body { get; init; }
 
@@ -18,7 +18,8 @@ public class Response
 
     private string GetResponseText()
     {
-        StringBuilder sb = new($"HTTP/1.1 {StatusCode} OK{EndOfLine}");
+        StringBuilder sb = new($"HTTP/1.1 {Status.Code} {Status.ReasonPhrase}".Trim());
+        sb.Append(EndOfLine);
         var body = Body ?? string.Empty;
         sb.Append($"Content-Length: {body.Length}{EndOfLine}{EndOfLine}");
         if (!string.IsNullOrEmpty(body))

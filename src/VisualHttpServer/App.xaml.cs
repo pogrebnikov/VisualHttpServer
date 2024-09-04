@@ -1,14 +1,22 @@
-﻿using System.Windows;
+﻿using System.IO;
+using System.Windows;
+using Microsoft.Extensions.Configuration;
 
 namespace VisualHttpServer;
 
 /// <summary>
-///     Interaction logic for App.xaml
+/// Interaction logic for App.xaml
 /// </summary>
 public partial class App : Application
 {
-    public App()
+    protected override void OnStartup(StartupEventArgs e)
     {
-        ServiceLocator.Init();
+        var builder = new ConfigurationBuilder()
+            .SetBasePath(Directory.GetCurrentDirectory())
+            .AddJsonFile("appsettings.json", false, true);
+
+        var configuration = builder.Build();
+
+        ServiceLocator.Init(configuration);
     }
 }
