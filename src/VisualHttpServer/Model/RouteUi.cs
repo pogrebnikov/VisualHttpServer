@@ -38,7 +38,7 @@ internal class RouteUi : INotifyPropertyChanged
         }
     }
 
-    public required ResponseUi? Response { get; set; }
+    public required ResponseUi Response { get; set; }
 
     public required bool Enabled { get; set; }
 
@@ -52,7 +52,7 @@ internal class RouteUi : INotifyPropertyChanged
         {
             Method = Method!,
             Path = Path!,
-            Response = Response!.ToServerResponse(responseStatuses),
+            Response = Response.ToServerResponse(responseStatuses),
             Enabled = Enabled
         };
     }
@@ -73,7 +73,7 @@ internal class RouteUi : INotifyPropertyChanged
     {
         Method = sourceRoute.Method;
         Path = sourceRoute.Path;
-        Response!.Update(sourceRoute.Response!);
+        Response.Update(sourceRoute.Response);
     }
 
     public RouteUi Clone()
@@ -82,7 +82,7 @@ internal class RouteUi : INotifyPropertyChanged
         {
             Method = Method,
             Path = Path,
-            Response = Response!.Clone(),
+            Response = Response.Clone(),
             Enabled = Enabled
         };
     }

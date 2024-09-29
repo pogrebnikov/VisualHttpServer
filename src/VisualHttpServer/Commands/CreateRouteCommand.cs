@@ -21,7 +21,8 @@ internal class CreateRouteCommand(RouteUiCollection routes, IMessageViewer messa
             {
                 return;
             }
-            routes.Add(route);
+            // Clone route because NewRouteWindowViewModel subscribers on PropertyChanged events of source route
+            routes.Add(route.Clone());
         }
 
         CloseWindowAction?.Invoke();

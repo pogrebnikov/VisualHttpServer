@@ -27,6 +27,8 @@
             </StackPanel>
         </GroupBox>
         <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" HorizontalAlignment="Right" Margin="0, 10, 0, 10">
+            <Button Content="Open Response..." Margin="0, 0, 10, 0" Padding="10, 5, 10, 5"
+                    Command="{Binding OpenResponse}" CommandParameter="{Binding Route}" />
             <Button Content="Save" Margin="0, 0, 10, 0" Command="{Binding SaveRoute}"
                     CommandParameter="{Binding Route}" Padding="10, 5, 10, 5" />
             <Button Content="Cancel" Margin="0, 0, 10, 0" Padding="10, 5, 10, 5" Click="CancelButton_Click" />

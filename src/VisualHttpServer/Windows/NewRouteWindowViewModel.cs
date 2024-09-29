@@ -42,6 +42,8 @@ internal class NewRouteWindowViewModel : INotifyPropertyChanged
         }
     }
 
+    public OpenResponseCommand? OpenResponse { get; } = ServiceLocator.Resolve<OpenResponseCommand>();
+
     public CreateRouteCommand? CreateRoute { get; }
 
     public RouteUi? Route { get; }
@@ -52,9 +54,34 @@ internal class NewRouteWindowViewModel : INotifyPropertyChanged
 
     public event PropertyChangedEventHandler? PropertyChanged;
 
+    public void SetCloseWindowAction(Action action)
+    {
+        if (CreateRoute is not null)
+        {
+            CreateRoute.CloseWindowAction = action;
+        }
+    }
+
     private void Route_PropertyChanged(object? sender, PropertyChangedEventArgs e)
     {
-        var method = Route.Method;
+        if (e.PropertyName == nameof(Route.Method))
+        {
+            ValidateMethod();
+        }
+    }
+
+    private void RouteResponse_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    {
+        if (e.PropertyName == nameof(Route.Response.StatusCode))
+        {
+            ValidateStatusCode();
+            UpdateReasonPhrase();
+        }
+    }
+
+    private void ValidateMethod()
+    {
+        var method = Route!.Method;
 
         if (!string.IsNullOrEmpty(method) && !HttpMethods.All.Contains(method))
         {
@@ -71,38 +98,38 @@ internal class NewRouteWindowViewModel : INotifyPropertyChanged
         }
     }
 
-    private void RouteResponse_PropertyChanged(object? sender, PropertyChangedEventArgs e)
+    private void ValidateStatusCode()
     {
-        var statusCode = Route.Response!.StatusCode;
+        var statusCode = Route!.Response!.StatusCode;
 
         var responseStatuses = ServiceLocator.Resolve<ResponseStatusCollection>();
         var responseStatus = responseStatuses!.Get(statusCode);
 
         if (responseStatus is null)
         {
-            Route.Response.ReasonPhrase = string.Empty;
-
             StatusCodeWarning = $"Warning: '{statusCode}' not in the list of HTTP status codes!";
             OnPropertyChanged(nameof(StatusCodeWarning));
         }
         else
         {
-            Route.Response.ReasonPhrase = responseStatus.ReasonPhrase;
-
-            if (!string.IsNullOrEmpty(StatusCodeWarning))
+            if (string.IsNullOrEmpty(StatusCodeWarning))
             {
-                StatusCodeWarning = string.Empty;
-                OnPropertyChanged(nameof(StatusCodeWarning));
+                return;
             }
+
+            StatusCodeWarning = string.Empty;
+            OnPropertyChanged(nameof(StatusCodeWarning));
         }
     }
 
-    public void SetCloseWindowAction(Action action)
+    private void UpdateReasonPhrase()
     {
-        if (CreateRoute is not null)
-        {
-            CreateRoute.CloseWindowAction = action;
-        }
+        var statusCode = Route!.Response!.StatusCode;
+
+        var responseStatuses = ServiceLocator.Resolve<ResponseStatusCollection>();
+        var responseStatus = responseStatuses!.Get(statusCode);
+
+        Route.Response.ReasonPhrase = responseStatus is null ? string.Empty : responseStatus.ReasonPhrase;
     }
 
     private void OnPropertyChanged(string propertyName)
