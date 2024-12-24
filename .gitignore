@@ -1,4 +1,5 @@
-src/.vs/
 *.user
+
+src/.vs/
 src/VisualHttpServer/bin/
 src/VisualHttpServer/obj/
